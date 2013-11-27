@@ -43,4 +43,7 @@ describe ShipList do
 		expect(copy.report).to eq("player1:cruiser->player2:interceptor")
 	end
 
+  it "properly arranges the initiative queue given a collection of ships belonging to both players" do
+  end
+
 end
