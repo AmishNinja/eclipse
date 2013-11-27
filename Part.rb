@@ -10,14 +10,16 @@ class Part
 		case name
 		when "hull"
 			self.hp = 1
-			return self
 		when "improved hull"
 			self.hp = 2
-			return self
 		when "shard hull"
 			self.hp = 3
-			return self
+		when "gauss shield"
+			self.shield = 1
+		when "phase shield"
+			self.shield = 2
 		end
+		return self
 	end
 
 end

@@ -4,7 +4,7 @@ player1 = Player.new("1", "terran") # player one is a terran
 player2 = Player.new("2", "planta")
 
 ships = [
-					Ship.new({"ion cannon" => 1, "plasma cannon" => 1},{"improved hull" => 1, "nuclear drive" => 1},"interceptor"),
+					Ship.new({"ion cannon" => 1, "plasma cannon" => 1},{"improved hull" => 1, "nuclear drive" => 1, "gauss shield" => 1},"interceptor"),
 					Ship.new({"plasma cannon" => 2},{"improved hull" => 2, "hull" => 1},"cruiser")
 ]
 
@@ -19,6 +19,7 @@ describe Player do
 			expect(player2.ships[0].init).to eq (0)
 			expect(player2.ships[0].hit_bonus).to eq(1)
 			expect(player2.ships[0].hp).to eq(3)
+			expect(player2.ships[0].shield).to eq (1)
 			expect(player2.ships[0].weapons.length).to eq(2)
 	end
 
