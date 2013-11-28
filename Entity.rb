@@ -2,7 +2,7 @@ require './Part.rb'
 require './Weapon.rb'
 
 class Entity
-	attr_accessor :hp, :init, :hit_bonus, :shield, :type, :weapons, :parts, :belongs_to
+	attr_accessor :hp, :init, :hit_bonus, :shield, :type, :weapons, :parts, :belongs_to, :is_attacker
 
 	def initialize(weapons, parts, type)
 		self.hp, self.init, self.hit_bonus, self.shield = 1, 0, 0, 0

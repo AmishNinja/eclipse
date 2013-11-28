@@ -4,11 +4,11 @@ require './shiplist'
 class Player
 	attr_accessor :id, :civilization, :ships, :is_attacker
 
-	def initialize(id=1, civilization="terran")
+	def initialize(id=1, civilization="terran", is_attacker=false)
 		self.id = id
 		self.civilization = civilization
 		self.ships = []
-		self.is_attacker = false
+		self.is_attacker = is_attacker
 	end
 
 	def add_ships(ships)
@@ -16,6 +16,7 @@ class Player
 			new_ship = ship.dup
 			new_ship.apply_civilization_template(self.civilization)
 			new_ship.belongs_to = self.id
+			new_ship.is_attacker = self.is_attacker
 			self.ships << new_ship
 		end
 	end

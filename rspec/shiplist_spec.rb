@@ -1,6 +1,6 @@
 require './player'
 
-player1 = Player.new("1", "terran") # player one is a terran
+player1 = Player.new("1", "terran", true) # player one is a terran
 player2 = Player.new("2", "planta") # player two is a planta
 
 ships = [
@@ -20,7 +20,8 @@ player2.ships.each do |ship|
 	all_ships << ship
 end
 
-ship_list = ShipList.new(all_ships)
+all_ships_copy = all_ships.dup
+ship_list = ShipList.new(all_ships_copy)
 
 describe ShipList do
 
@@ -44,6 +45,13 @@ describe ShipList do
 	end
 
   it "properly arranges the initiative queue given a collection of ships belonging to both players" do
+    all_ships[0].init = 2
+    all_ships[1].init = 1
+    all_ships[2].init = 1
+    all_ships[3].init = 2
+    sorted = all_ships.sort.reverse!
+    ship_list = ShipList.new(sorted)
+    expect(ship_list.report).to eq("player2:cruiser->player1:interceptor->player2:interceptor->player1:cruiser")
   end
 
 end

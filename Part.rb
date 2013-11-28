@@ -18,6 +18,8 @@ class Part
 			self.shield = 1
 		when "phase shield"
 			self.shield = 2
+		when "flux shield"
+			self.shield = 3
 		when "electron computer"
 			self.hit_bonus = 1
 		when "positron computer"
@@ -32,6 +34,8 @@ class Part
 			self.init = 2
 		when "tachyon drive"
 			self.init = 3
+		when "conformal drive"
+			self.init = 2
 		end
 		return self
 	end

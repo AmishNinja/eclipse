@@ -4,6 +4,14 @@ require './Entity.rb'
 
 class Ship < Entity
 
+	include Comparable
+	def <=> other
+		return 0 if (self.init == other.init && !self.is_attacker && !other.is_attacker)
+		return 1 if (self.init == other.init && !self.is_attacker && other.is_attacker) || (self.init > other.init && !self.is_attacker && !other.is_attacker)
+		return -1 if (self.init < other.init && !self.is_attacker && !other.is_attacker) || (self.init == other.init && !other.is_attacker && self.is_attacker) 
+		self.init <=> other.init
+	end
+
 	def apply_civilization_template(civilization)
 		case self.type
 
