@@ -1,5 +1,5 @@
-require './Part.rb'
-require './Weapon.rb'
+require './part'
+require './weapon'
 
 class Entity
 	attr_accessor :hp, :init, :hit_bonus, :shield, :type, :weapons, :parts, :belongs_to, :is_attacker

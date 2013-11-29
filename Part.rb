@@ -1,7 +1,6 @@
 class Part
 	attr_accessor :name, :hp, :init, :hit_bonus, :shield
 
-
 	def initialize(name)
 		self.get_part(name)
 	end
