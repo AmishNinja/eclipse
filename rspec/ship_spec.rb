@@ -23,4 +23,11 @@ describe Ship do
 		expect(damage).to be_between(0, max_damage)
 	end
 
+	it "destroys other ships" do
+		while ship2.destroyed? == false
+			ship.attack(ship2)
+		end
+		expect(ship2.destroyed?).to eq(true)
+	end
+
 end

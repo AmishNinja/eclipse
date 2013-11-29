@@ -71,7 +71,14 @@ class Entity
 				damage_dealt += roll["damage"]
 			end
 		end
-		return damage_dealt
+		entity.hp -= damage_dealt
+	end
+
+	def destroyed?
+		if self.hp <= 0
+			return true
+		end
+		return false
 	end
 
 end
