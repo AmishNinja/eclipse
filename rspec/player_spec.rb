@@ -35,12 +35,5 @@ describe Player do
 		ship.weapons.each { |weapon| expect(weapon.attacks).to eq(1) }
 		expect(ship.type).to eq("interceptor")
 	end
-
-	it "has ships that roll for attack! hah!" do
-		expect(player2.ships.first.roll_attacks.length).to eq(2)
-	end
-
-
 	
-
 end

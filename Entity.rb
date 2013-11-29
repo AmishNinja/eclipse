@@ -47,7 +47,7 @@ class Entity
 		end
 	end
 
-	def roll_attacks()
+	def roll()
 		rolls = []
 		if !self.weapons.empty? 
 			self.weapons.each do |weapon|
@@ -59,6 +59,19 @@ class Entity
 			return rolls
 		end
 		return []
+	end
+
+	def attack(entity)
+		rolls = self.roll
+		target = 6 - self.hit_bonus + entity.shield
+		if target > 6 then target = 6 end
+		damage_dealt = 0
+		rolls.each do |roll|
+			if roll["raw"] >= target
+				damage_dealt += roll["damage"]
+			end
+		end
+		return damage_dealt
 	end
 
 end
