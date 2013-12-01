@@ -26,7 +26,7 @@ ship_list = ShipList.new(all_ships_copy)
 describe ShipList do
 
 	it "reports ship class and player in the correct order" do
-		expect(ship_list.report).to eq("player1:interceptor->player1:cruiser->player2:interceptor->player2:cruiser")
+		expect(ship_list.report).to eq("player 1 interceptor->player 1 cruiser->player 2 interceptor->player 2 cruiser")
 	end
 
 	it "correctly accounts for the number of ships in the list before and after removing ships" do
@@ -41,8 +41,18 @@ describe ShipList do
 		copy = ship_list.dup
 		copy.delete(player1.ships[0])
 		copy.delete(player2.ships[1])
-		expect(copy.report).to eq("player1:cruiser->player2:interceptor")
+		expect(copy.report).to eq("player 1 cruiser->player 2 interceptor")
 	end
+
+  it "properly arranges the initiative queue given a collection of player ships and ancients" do
+    test_collection = []
+    player1.ships.each { |ship| test_collection << ship }
+    test_collection << Ancient.new("ship")
+    test_collection << Ancient.new("ship")
+    sorted = test_collection.sort.reverse!
+    ship_list = ShipList.new(sorted)
+    expect(ship_list.report).to eq("player 1 interceptor->ancient ship->ancient ship->player 1 cruiser")
+  end
 
   it "properly arranges the initiative queue given a collection of ships belonging to both players" do
     all_ships[0].init = 2
@@ -51,7 +61,7 @@ describe ShipList do
     all_ships[3].init = 2
     sorted = all_ships.sort.reverse!
     ship_list = ShipList.new(sorted)
-    expect(ship_list.report).to eq("player2:cruiser->player1:interceptor->player2:interceptor->player1:cruiser")
+    expect(ship_list.report).to eq("player 2 cruiser->player 1 interceptor->player 2 interceptor->player 1 cruiser")
   end
 
 end

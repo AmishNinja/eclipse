@@ -2,6 +2,7 @@ require './ship'
 
 ship = Ship.new({"ion cannon" => 1, "plasma cannon" => 1},{"improved hull" => 1, "nuclear drive" => 1, "gauss shield" => 1, "electron computer" => 1},"interceptor")
 ship2 = Ship.new({"ion cannon" => 1, "plasma cannon" => 1},{"improved hull" => 1, "nuclear drive" => 1, "phase shield" => 1},"interceptor")
+ancient = Ancient.new("ship")
 
 describe Ship do 
 
@@ -14,8 +15,8 @@ describe Ship do
 		end
 	end
 
-	it "attacks other ships" do
-		damage = ship.attack(ship2)
+	it "attacks ancients" do
+		damage = ship.attack(ancient)
 		max_damage = 0
 		ship.weapons.each do |weapon|
 			max_damage += weapon.damage
@@ -23,11 +24,11 @@ describe Ship do
 		expect(damage).to be_between(0, max_damage)
 	end
 
-	it "destroys other ships" do
-		while ship2.destroyed? == false
-			ship.attack(ship2)
+	it "destroys ancients" do
+		while ancient.destroyed? == false
+			ship.attack(ancient)
 		end
-		expect(ship2.destroyed?).to eq(true)
+		expect(ancient.destroyed?).to eq(true)
 	end
 
 end

@@ -15,7 +15,7 @@ class Player
 		ships.each do |ship|
 			new_ship = ship.dup
 			new_ship.apply_civilization_template(self.civilization)
-			new_ship.belongs_to = self.id
+			new_ship.belongs_to = "player "+ self.id.to_s
 			new_ship.is_attacker = self.is_attacker
 			self.ships << new_ship
 		end
