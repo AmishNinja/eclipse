@@ -17,11 +17,11 @@ class Part
 	end
 
 	def hit_bonus= value
-		ship.hit_bonus = value
+		ship.hit_bonus += value
 	end
 
 	def shield= value
-		ship.shield = value
+		ship.shield += value
 	end
 
 	def sync_attrs
