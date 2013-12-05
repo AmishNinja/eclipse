@@ -37,23 +37,16 @@ class Entity
 			(1..amount).each do |n|
 				newPart = Part.new(part_name)				
 				self.parts << newPart
-				
-				if newPart.hp.is_a? Integer
-					@hp += newPart.hp
-				end
-				
-				if newPart.init.is_a? Integer
-					@init += newPart.init
-				end
+				self.apply_part(newPart)
+			end
+		end
+	end
 
-				if newPart.hit_bonus.is_a? Integer
-					@hit_bonus += newPart.hit_bonus
-				end
-				
-				if newPart.shield.is_a? Integer
-					@shield += newPart.shield
-				end
-
+	def apply_part(part)
+		self.instance_variables.each do |var|
+				varSet = part.instance_variable_get("#{var}")
+				if varSet.is_a? Integer
+					self.instance_variable_set("#{var}", self.instance_variable_get("#{var}") + varSet)
 			end
 		end
 	end
@@ -98,7 +91,7 @@ class Entity
 		return false
 	end
 
-	def to_s
+	def name
 		return @belongs_to + " " + @type
 	end
 
