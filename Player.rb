@@ -35,7 +35,4 @@ class Player
 		# 			other, continue with next ship in queue
 
 	end
-
-	
-
 end

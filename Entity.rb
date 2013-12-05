@@ -8,7 +8,7 @@ class Entity
 		@hp, @init, @hit_bonus, @shield = 1, 0, 0, 0
 		@type = type
 		self.weapons, self.parts = [], []
-		self.blueprint(weapons, parts)
+		blueprint(weapons, parts)
 	end
 
 	include Comparable
@@ -20,8 +20,8 @@ class Entity
 	end
 
 	def blueprint(weapons, parts)
-		self.apply_weapons(weapons)
-		self.apply_parts(parts)
+		apply_weapons(weapons)
+		apply_parts(parts)
 	end
 
 	def apply_weapons(weapons)
@@ -35,18 +35,8 @@ class Entity
 	def apply_parts(parts)
 		parts.each do |part_name, amount|
 			(1..amount).each do |n|
-				newPart = Part.new(part_name)				
+				newPart = Part.new(self, part_name)				
 				self.parts << newPart
-				self.apply_part(newPart)
-			end
-		end
-	end
-
-	def apply_part(part)
-		self.instance_variables.each do |var|
-				varSet = part.instance_variable_get("#{var}")
-				if varSet.is_a? Integer
-					self.instance_variable_set("#{var}", self.instance_variable_get("#{var}") + varSet)
 			end
 		end
 	end
@@ -93,6 +83,10 @@ class Entity
 
 	def name
 		return @belongs_to + " " + @type
+	end
+
+	def assign= value
+
 	end
 
 end
