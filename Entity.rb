@@ -5,23 +5,26 @@ class Entity
 	attr_accessor :hp, :init, :hit_bonus, :shield, :type, :weapons, :parts, :belongs_to, :is_attacker
 
 	def initialize(weapons, parts, type)
-		self.hp, self.init, self.hit_bonus, self.shield = 1, 0, 0, 0
-		self.type = type
-		self.weapons = []
-		self.parts = []
-		self.build_weapons(weapons)
-		self.build_parts(parts)
+		@hp, @init, @hit_bonus, @shield = 1, 0, 0, 0
+		@type = type
+		self.weapons, self.parts = [], []
+		self.blueprint(weapons, parts)
 	end
 
 	include Comparable
 	def <=> other
 		return 0 if (self.init == other.init && !self.is_attacker && !other.is_attacker)
-		return 1 if (self.init == other.init && !self.is_attacker && other.is_attacker) || (self.init > other.init && !self.is_attacker && !other.is_attacker)
-		return -1 if (self.init < other.init && !self.is_attacker && !other.is_attacker) || (self.init == other.init && !other.is_attacker && self.is_attacker) 
+		return 1 if (self.init == other.init && other.is_attacker) || (self.init > other.init && !self.is_attacker && !other.is_attacker)
+		return -1 if (self.init < other.init && !self.is_attacker && !other.is_attacker) || (self.init == other.init && self.is_attacker) 
 		self.init <=> other.init
 	end
 
-	def build_weapons(weapons)
+	def blueprint(weapons, parts)
+		self.apply_weapons(weapons)
+		self.apply_parts(parts)
+	end
+
+	def apply_weapons(weapons)
 		weapons.each do |weapon_name, amount|
 			(1..amount).each do |n|
 				self.weapons << Weapon.new(weapon_name)
@@ -29,26 +32,26 @@ class Entity
 		end
 	end
 
-	def build_parts(parts)
+	def apply_parts(parts)
 		parts.each do |part_name, amount|
 			(1..amount).each do |n|
 				newPart = Part.new(part_name)				
 				self.parts << newPart
 				
 				if newPart.hp.is_a? Integer
-					self.hp += newPart.hp
+					@hp += newPart.hp
 				end
 				
 				if newPart.init.is_a? Integer
-					self.init += newPart.init
+					@init += newPart.init
 				end
 
 				if newPart.hit_bonus.is_a? Integer
-					self.hit_bonus += newPart.hit_bonus
+					@hit_bonus += newPart.hit_bonus
 				end
 				
 				if newPart.shield.is_a? Integer
-					self.shield += newPart.shield
+					@shield += newPart.shield
 				end
 
 			end
@@ -69,6 +72,12 @@ class Entity
 		return []
 	end
 
+	def target_roll(entity)
+		target = 6 - self.hit_bonus + entity.shield
+		if target > 6 then target = 6 end
+		return target
+	end		 
+
 	def attack(entity)
 		rolls = self.roll
 		target = 6 - self.hit_bonus + entity.shield
@@ -83,10 +92,14 @@ class Entity
 	end
 
 	def destroyed?
-		if self.hp <= 0
+		if @hp <= 0
 			return true
 		end
 		return false
+	end
+
+	def to_s
+		return @belongs_to + " " + @type
 	end
 
 end

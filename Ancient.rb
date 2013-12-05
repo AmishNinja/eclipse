@@ -4,19 +4,19 @@ class Ancient < Entity
 
 	def initialize(type)
 		self.weapons = []
-		self.hit_bonus = 1
-		self.belongs_to = 'ancient'
-		self.shield = 0
-		self.type = type
-		self.is_attacker = false
+		@hit_bonus = 1
+		@belongs_to = 'ancient'
+		@shield = 0
+		@type = type
+		@is_attacker = false
 		if type == "ship"
-			self.hp = 2
-			self.init = 2
-			self.build_weapons({"plasma cannon" => 2})
+			@hp = 2
+			@init = 2
+			self.apply_weapons({"plasma cannon" => 2})
 		elsif type == "gdc"
-			self.hp = 8
-			self.init = 0
-			self.build_weapons({"plasma cannon" => 4})
+			@hp = 8
+			@init = 0
+			self.apply_weapons({"plasma cannon" => 4})
 		end
 	end
 
