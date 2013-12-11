@@ -1,42 +1,41 @@
 class Part
-	attr_accessor :ship, :name
+	attr_accessor :name
 
 	def initialize ship, name
-		self.ship = ship
 		self.name = name
-		sync_attrs
+		sync_attrs ship
 	end
 
-	def sync_attrs
+	def sync_attrs ship
 		case @name
 		when "hull"
-			self.ship.hp += 1
+			ship.hp += 1
 		when "improved hull"
-			self.ship.hp += 2
+			ship.hp += 2
 		when "shard hull"
-			self.ship.hp += 3
+			ship.hp += 3
 		when "gauss shield"
-			self.ship.shield += 1
+			ship.shield += 1
 		when "phase shield"
-			self.ship.shield += 2
+			ship.shield += 2
 		when "flux shield"
-			self.ship.shield += 3
+			ship.shield += 3
 		when "electron computer"
-			self.ship.hit_bonus += 1
+			ship.hit_bonus += 1
 		when "positron computer"
-			self.ship.hit_bonus += 2
-			self.ship.init += 1
+			ship.hit_bonus += 2
+			ship.init += 1
 		when "gluon computer"
-			self.ship.hit_bonus += 3
-			self.ship.init += 2
+			ship.hit_bonus += 3
+			ship.init += 2
 		when "nuclear drive"
-			self.ship.init += 1
+			ship.init += 1
 		when "fusion drive"
-			self.ship.init += 2
+			ship.init += 2
 		when "tachyon drive"
-			self.ship.init += 3
+			ship.init += 3
 		when "conformal drive"
-			self.ship.init += 2
+			ship.init += 2
 		end
 		return self
 	end
