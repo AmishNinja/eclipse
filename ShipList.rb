@@ -1,4 +1,4 @@
-require './linkedlist'
+require './LinkedList.rb'
 
 class ShipList < List
 

@@ -1,4 +1,4 @@
-require './ancient'
+require './Ancient.rb'
 
 ancient_ship = Ancient.new("ship")
 ancient_gdc = Ancient.new("gdc")

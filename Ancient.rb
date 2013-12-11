@@ -1,4 +1,4 @@
-require './entity'
+require './Entity.rb'
 
 class Ancient < Entity
 

@@ -1,4 +1,4 @@
-require './player'
+require './Player.rb'
 
 player1 = Player.new("1", "terran") # player one is terran
 player2 = Player.new("2", "planta") # player two is planta

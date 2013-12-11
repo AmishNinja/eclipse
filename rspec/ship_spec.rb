@@ -1,4 +1,4 @@
-require './ship'
+require './Ship.rb'
 
 ship = Ship.new({"ion cannon" => 1, "plasma cannon" => 1},{"improved hull" => 1, "nuclear drive" => 1, "gauss shield" => 1, "electron computer" => 1},"interceptor")
 ship2 = Ship.new({"ion cannon" => 1, "plasma cannon" => 1},{"improved hull" => 1, "nuclear drive" => 1, "phase shield" => 1},"interceptor")

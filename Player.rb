@@ -1,5 +1,5 @@
-require './ship'
-require './shiplist'
+require './Ship.rb'
+require './ShipList.rb'
 
 class Player
 	attr_accessor :id, :civilization, :ships, :is_attacker
