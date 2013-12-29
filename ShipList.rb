@@ -6,10 +6,10 @@ class ShipList < List
 		current = @head
 		shipList = []
 		while current.next != nil
-			shipList << "#{current.element.belongs_to.to_s} #{current.element.type}"
+			shipList << "#{current.element.title}"
 			current = current.next
 		end
-		shipList << "#{current.element.belongs_to.to_s} #{current.element.type}"
+		shipList << "#{current.element.title}"
 		return shipList.join("->")
 	end
 

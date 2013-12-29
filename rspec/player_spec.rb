@@ -1,29 +1,27 @@
 require './Player.rb'
 
-player1 = Player.new("1", "terran") # player one is terran
-player2 = Player.new("2", "planta") # player two is planta
+loadout = Hash.new
+loadout["interceptor"] = {:weapons => {"ion cannon" => 1, "plasma cannon" => 1}, :parts => {"improved hull" => 1, "nuclear drive" => 1, "gauss shield" => 1}}
+loadout["cruiser"] = {:weapons => {"plasma cannon" => 2}, :parts => {"improved hull" => 2, "hull" => 1}}
 
-ships = [
-					Ship.new({"ion cannon" => 1, "plasma cannon" => 1},{"improved hull" => 1, "nuclear drive" => 1, "gauss shield" => 1},"interceptor"),
-					Ship.new({"plasma cannon" => 2},{"improved hull" => 2, "hull" => 1},"cruiser")
-]
+player1 = Player.new("1", "terran", loadout, true) # player one is terran
+player2 = Player.new("2", "planta", loadout, false) # player two is planta
 
 describe Player do
 	it "creates a player with expected attributes" do
 		expect(player1.id).to eq('1')
 		expect(player1.civilization).to eq("terran")
 		expect(player1.ships).to eq([])
-		expect(player1.is_attacker).to eq(false)
+		expect(player1.is_attacker).to eq(true)
 	end
 
-
 	it "assigns an array of ships to the player's control" do
-		player1.add_ships(ships)
-		expect(player1.ships.length).to eq(2)
+		player1.add_ships({"interceptor" => 2, "cruiser" => 1})
+		expect(player1.ships.length).to eq(3)
 	end
 
 	it "properly assigns attributes to each ship based on player civilization, ship class, and its parts" do
-		player2.add_ships(ships)
+		player2.add_ship("interceptor")
 		ship = player2.ships.first
 		expect(ship.init).to eq (1)
 		expect(ship.hit_bonus).to eq(1)

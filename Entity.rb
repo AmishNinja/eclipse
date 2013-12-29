@@ -2,43 +2,14 @@ require './Part.rb'
 require './Weapon.rb'
 
 class Entity
-	attr_accessor :hp, :init, :hit_bonus, :shield, :type, :weapons, :parts, :belongs_to, :is_attacker
-
-	def initialize(weapons, parts, type)
-		@hp, @init, @hit_bonus, @shield = 1, 0, 0, 0
-		@type = type
-		self.weapons, self.parts = [], []
-		blueprint(weapons, parts)
-	end
+	attr_accessor :hp, :init, :hit_bonus, :shield, :blueprint, :belongs_to
 
 	include Comparable
 	def <=> other
-		return 0 if (self.init == other.init && !self.is_attacker && !other.is_attacker)
-		return 1 if (self.init == other.init && other.is_attacker) || (self.init > other.init && !self.is_attacker && !other.is_attacker)
-		return -1 if (self.init < other.init && !self.is_attacker && !other.is_attacker) || (self.init == other.init && self.is_attacker) 
+		return 0 if (self.init == other.init && !self.is_attacker? && !other.is_attacker?)
+		return 1 if (self.init == other.init && other.is_attacker?) || (self.init > other.init && !self.is_attacker? && !other.is_attacker?)
+		return -1 if (self.init < other.init && !self.is_attacker? && !other.is_attacker?) || (self.init == other.init && self.is_attacker?) 
 		self.init <=> other.init
-	end
-
-	def blueprint(weapons, parts)
-		apply_weapons(weapons)
-		apply_parts(parts)
-	end
-
-	def apply_weapons(weapons)
-		weapons.each do |weapon_name, amount|
-			(1..amount).each do |n|
-				self.weapons << Weapon.new(weapon_name)
-			end
-		end
-	end
-
-	def apply_parts(parts)
-		parts.each do |part_name, amount|
-			(1..amount).each do |n|
-				newPart = Part.new(self, part_name)				
-				self.parts << newPart
-			end
-		end
 	end
 
 	def roll()
@@ -81,12 +52,8 @@ class Entity
 		return false
 	end
 
-	def name
-		return @belongs_to + " " + @type
-	end
-
-	def assign= value
-
+	def title
+		return "player " + self.belongs_to.id + " " + self.blueprint.type
 	end
 
 end

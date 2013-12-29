@@ -1,12 +1,11 @@
 class Part
 	attr_accessor :name
 
-	def initialize ship, name
+	def initialize name
 		self.name = name
-		sync_attrs ship
 	end
 
-	def sync_attrs ship
+	def apply ship
 		case @name
 		when "hull"
 			ship.hp += 1
@@ -37,7 +36,6 @@ class Part
 		when "conformal drive"
 			ship.init += 2
 		end
-		return self
 	end
 
 end

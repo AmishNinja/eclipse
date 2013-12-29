@@ -1,29 +1,31 @@
 require './Player.rb'
 
-player1 = Player.new("1", "terran", true) # player one is a terran
-player2 = Player.new("2", "planta") # player two is a planta
-
-ships = [
+describe ShipList do
+	let(:player1) { Player.new("1", "terran", true) } #Player one is a terran
+	let(:player2) { Player.new("2", "planta") } #Player two is a planta
+	let(:ships) { 
+		[
 					Ship.new({"ion cannon" => 1, "plasma cannon" => 1},{"improved hull" => 1, "nuclear drive" => 1},"interceptor"),
 					Ship.new({"plasma cannon" => 2},{"improved hull" => 2, "hull" => 1},"cruiser")
-]
+		] 
+	}
 
-player1.add_ships(ships)
-player2.add_ships(ships)
+	before do
+		player1.add_ships(ships)
+		player2.add_ships(ships)
 
-all_ships = []
-player1.ships.each do |ship|
-	all_ships << ship
-end
+		all_ships = []
+		player1.ships.each do |ship|
+			all_ships << ship
+		end
 
-player2.ships.each do |ship|
-	all_ships << ship
-end
+		player2.ships.each do |ship|
+			all_ships << ship
+		end
 
-all_ships_copy = all_ships.dup
-ship_list = ShipList.new(all_ships_copy)
-
-describe ShipList do
+		all_ships_copy = all_ships.dup
+		let(:all_ships) { ShipList.new(all_ships_copy) }
+	end
 
 	it "reports ship class and player in the correct order" do
 		expect(ship_list.report).to eq("player 1 interceptor->player 1 cruiser->player 2 interceptor->player 2 cruiser")

@@ -4,47 +4,30 @@ require './Entity.rb'
 
 class Ship < Entity
 
-	def apply_civilization_template(civilization)
-		case @type
+	def initialize (blueprint, belongs_to)
+		@hp, @init, @hit_bonus, @shield = 1, 0, 0, 0
+		self.blueprint = blueprint
+		self.belongs_to = belongs_to
+	end
 
-		when "interceptor"
-			if ["terran", "hydran", "descendents", "mechanema", "eridani"].include?(civilization)
-				@init += 2
-			elsif civilization == "hegemony"
-				@init += 3
-			elsif civilization == "planta"
-				@hit_bonus += 1
-			end
-		
-		
-		when "cruiser"
-			if ["terran", "hydran", "descendents", "mechanema", "eridani"].include?(civilization)
-				@init += 1
-			elsif civilization == "hegemony"
-				@init += 2
-			elsif civilization == "planta"
-				@hit_bonus += 1
-			end
-		
-		
-		when "dreadnaught"
-			if civilization == "hegemony"
-				@init += 1
-			elsif civilization == "planta"
-				@hit_bonus += 1
-			end
-		
-		
-		when "starbase"
-			if ["terran", "hydran", "descendents", "mechanema", "eridani"].include?(civilization)
-				@init += 4
-			elsif civilization == "hegemony"
-				@init += 5
-			elsif civilization == "planta"
-				@hit_bonus += 1
-				@init += 2
-			end
+	def apply_blueprint
+		self.blueprint.parts.each do |part|
+			part.apply self
 		end
 	end
+
+	def is_attacker?
+		return self.belongs_to.is_attacker
+	end
+
+	def weapons
+		return self.blueprint.weapons
+	end
+
+	def type
+		return self.blueprint.type
+	end
+
+	
 
 end

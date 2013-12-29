@@ -1,38 +1,81 @@
 require './Ship.rb'
 require './ShipList.rb'
+require './Blueprint.rb'
 
 class Player
-	attr_accessor :id, :civilization, :ships, :is_attacker
+	attr_accessor :id, :civilization, :ships, :is_attacker, :blueprints
 
-	def initialize(id=1, civilization="terran", is_attacker=false)
+	def initialize(id=1, civilization="terran", blueprints, is_attacker)
 		self.id = id
 		self.civilization = civilization
 		self.ships = []
+		self.blueprints = create_blueprints(blueprints)
 		self.is_attacker = is_attacker
 	end
 
-	def add_ships(ships)
-		ships.each do |ship|
-			new_ship = ship.dup
-			new_ship.apply_civilization_template(self.civilization)
-			new_ship.belongs_to = "player "+ self.id.to_s
-			new_ship.is_attacker = self.is_attacker
-			self.ships << new_ship
+	def create_blueprints(blueprints)
+		self.blueprints = {}
+		blueprints.each do |type, hash|
+			self.blueprints[type] = Blueprint.new hash[:parts], hash[:weapons], type
+		end
+		return self.blueprints
+	end
+
+	def add_ships (ships)
+		ships.each do |type, amount|
+			(1..amount).each do 
+				self.add_ship(type)
+			end
 		end
 	end
 
-	#combat initiation function. oh snap, it's on!
-	def attack(player)
-		self.is_attacker = true
-		# todo build initiative queue, i.e. linked list of ships
-		# process:
-		# 	find all ships with missiles in initiative order
-		# => fire missiles at first available targets of opposing player
-		# => resolve damage, remove destroyed ships from LL
-		# => begin at head of LL, fire at smallest enemy ship, resolve damage
-		# => after each ship destruction, check if victim has any remaining ships
-		# 			if not, resolve combat
-		# 			other, continue with next ship in queue
-
+	def add_ship(type)
+		ship = Ship.new(self.blueprints["#{type}"], self)
+		ship.apply_blueprint
+		self.apply_civilization_template(ship)
+		self.ships << ship
 	end
+
+	def apply_civilization_template(ship)
+		case ship.blueprint.type
+
+		when "interceptor"
+			if ["terran", "hydran", "descendents", "mechanema", "eridani"].include?(@civilization)
+				ship.init += 2
+			elsif @civilization == "hegemony"
+				ship.init += 3
+			elsif @civilization == "planta"
+				ship.hit_bonus += 1
+			end
+		
+		when "cruiser"
+			if ["terran", "hydran", "descendents", "mechanema", "eridani"].include?(@civilization)
+				ship.init += 1
+			elsif @civilization == "hegemony"
+				ship.init += 2
+			elsif @civilization == "planta"
+				ship.hit_bonus += 1
+			end
+		
+		when "dreadnaught"
+			if @civilization == "hegemony"
+				ship.init += 1
+			elsif @civilization == "planta"
+				ship.hit_bonus += 1
+			end
+		
+		
+		when "starbase"
+			if ["terran", "hydran", "descendents", "mechanema", "eridani"].include?(@civilization)
+				ship.init += 4
+			elsif @civilization == "hegemony"
+				ship.init += 5
+			elsif @civilization == "planta"
+				ship.hit_bonus += 1
+				ship.init += 2
+			end
+
+		end
+	end
+
 end
