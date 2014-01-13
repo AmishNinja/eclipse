@@ -1,40 +1,41 @@
 class Part
-	attr_accessor :name
+	attr_accessor :name, :hp, :shield, :hit_bonus, :init
 
 	def initialize name
 		self.name = name
+		update
 	end
 
-	def apply ship
+	def update
 		case @name
 		when "hull"
-			ship.hp += 1
+			self.hp = 1
 		when "improved hull"
-			ship.hp += 2
+			self.hp = 2
 		when "shard hull"
-			ship.hp += 3
+			self.hp = 3
 		when "gauss shield"
-			ship.shield += 1
+			self.shield = 1
 		when "phase shield"
-			ship.shield += 2
+			self.shield = 2
 		when "flux shield"
-			ship.shield += 3
+			self.shield = 3
 		when "electron computer"
-			ship.hit_bonus += 1
+			self.hit_bonus = 1
 		when "positron computer"
-			ship.hit_bonus += 2
-			ship.init += 1
+			self.hit_bonus = 2
+			self.init = 1
 		when "gluon computer"
-			ship.hit_bonus += 3
-			ship.init += 2
+			self.hit_bonus = 3
+			self.init = 2
 		when "nuclear drive"
-			ship.init += 1
+			self.init = 1
 		when "fusion drive"
-			ship.init += 2
+			self.init = 2
 		when "tachyon drive"
-			ship.init += 3
+			self.init = 3
 		when "conformal drive"
-			ship.init += 2
+			self.init = 2
 		end
 	end
 

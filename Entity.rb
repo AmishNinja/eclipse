@@ -2,7 +2,8 @@ require './Part.rb'
 require './Weapon.rb'
 
 class Entity
-	attr_accessor :hp, :init, :hit_bonus, :shield, :blueprint, :belongs_to
+	attr_accessor :blueprint, :damage
+	attr_reader :player
 
 	include Comparable
 	def <=> other
@@ -10,6 +11,22 @@ class Entity
 		return 1 if (self.init == other.init && other.is_attacker?) || (self.init > other.init && !self.is_attacker? && !other.is_attacker?)
 		return -1 if (self.init < other.init && !self.is_attacker? && !other.is_attacker?) || (self.init == other.init && self.is_attacker?) 
 		self.init <=> other.init
+	end
+
+	def hp
+		self.blueprint.hp
+	end
+
+	def init
+		self.blueprint.init
+	end
+
+	def hit_bonus
+		self.blueprint.hit_bonus
+	end
+
+	def shield
+		self.blueprint.shield
 	end
 
 	def roll()
@@ -42,18 +59,18 @@ class Entity
 				damage_dealt += roll["damage"]
 			end
 		end
-		entity.hp -= damage_dealt
+		entity.damage += damage_dealt
 	end
 
 	def destroyed?
-		if @hp <= 0
+		if self.damage >= self.hp
 			return true
 		end
 		return false
 	end
 
 	def title
-		return "player " + self.belongs_to.id + " " + self.blueprint.type
+		return "player " + self.player.id + " " + self.blueprint.type
 	end
 
 end
